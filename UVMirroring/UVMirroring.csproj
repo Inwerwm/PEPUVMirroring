@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KdTreeLib">
-      <HintPath>..\..\KdTree\KdTreeLib\bin\Release\net471\KdTreeLib.dll</HintPath>
+      <HintPath>C:\Users\Inwerwm\Source\Repos\KdTree\KdTreeLib\bin\Release\net471\KdTreeLib.dll</HintPath>
     </Reference>
     <Reference Include="PEPExtensions">
       <HintPath>F:\MMD\_Programs\PEPExtensions\PEPExtensions\bin\Release\PEPExtensions.dll</HintPath>
