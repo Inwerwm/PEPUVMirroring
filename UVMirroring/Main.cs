@@ -54,12 +54,20 @@ namespace UVMirroring
             {
                 var pmx = args.Host.Connector.Pmx.GetCurrentState();
                 var selectedVertex = args.Host.Connector.View.PmxView.GetSelectedVertexIndices().Select(i => pmx.Vertex[i]).ToList();
+                var selecteMaterialIndices = args.Host.Connector.Form.GetSelectedMaterialIndices();
+                
                 if (!selectedVertex.Any())
-                    throw new ArgumentOutOfRangeException("UVを転写させたい頂点を選択してください。");
+                    throw new InvalidOperationException("UVを転写させたい頂点を選択してください。");
+                if (!selecteMaterialIndices.Any())
+                    throw new InvalidOperationException("UV転写元頂点を含む面が属する材質を選択してください。");
 
+                // 余分な頂点をtreeに入れると重くなるので選択頂点の範囲内(の反転した領域)のみを取り込む
                 (V3 min, V3 max) bound = Utility.GetBoundingBox(selectedVertex);
+                // 取り込み領域を拡大
+                bound.min.Times(1.1);
+                bound.max.Times(1.1);
                 var tree = new KdTree<float, IPXVertex>(3, new FloatMath(), AddDuplicateBehavior.List);
-                var vertices = args.Host.Connector.Form.GetSelectedMaterialIndices().SelectMany(i => Utility.GetMaterialVertices(pmx.Material[i]));
+                var vertices = selecteMaterialIndices.SelectMany(i => Utility.GetMaterialVertices(pmx.Material[i]));
                 foreach (var v in vertices
                     .Where(v => v.Position.X.IsWithin(-1 * bound.max.X, -1 * bound.min.X))
                     .Where(v => v.Position.Y.IsWithin(bound.min.Y, bound.max.Y))
@@ -78,6 +86,10 @@ namespace UVMirroring
                 }
 
                 Utility.Update(args.Host.Connector, pmx, PmxUpdateObject.Vertex);
+            }
+            catch(InvalidOperationException ex)
+            {
+                Utility.ShowExceptionMessage(ex);
             }
             catch (Exception ex)
             {
