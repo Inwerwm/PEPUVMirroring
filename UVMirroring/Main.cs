@@ -19,7 +19,7 @@ namespace UVMirroring
         {
             get
             {
-                return "選択材質の鏡像頂点からUVを転写";
+                return "選択頂点のUVを選択材質の鏡像頂点から転写";
             }
         }
 
@@ -27,7 +27,7 @@ namespace UVMirroring
         {
             get
             {
-                return "0.0";
+                return "1.0";
             }
         }
 
@@ -35,7 +35,7 @@ namespace UVMirroring
         {
             get
             {
-                return "選択材質の鏡像位置の頂点からUVを転写する";
+                return "選択頂点のUVを選択材質の鏡像頂点から転写する";
             }
         }
 
@@ -44,7 +44,7 @@ namespace UVMirroring
             get
             {
                 // boot時実行, プラグインメニューへの登録, メニュー登録名
-                return new PEPluginOption(false, true, "選択材質の鏡像頂点からUVを転写");
+                return new PEPluginOption(false, true, "選択頂点のUVを選択材質の鏡像頂点から転写");
             }
         }
 
